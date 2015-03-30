@@ -31,7 +31,9 @@ function addMarker(mark)
     map: map,
     icon: image,
     title: mark.id,
-    imgSrc: mark.imgSrc
+    imgSrc: mark.imgSrc,
+    caption:mark.caption,
+    username:mark.username
   });
 
    markers.push(marker);
@@ -43,14 +45,29 @@ var mapOptions = {
     center: mapCenter
   }
 
+function displayInfo(content,marker)
+{
+  var infowindow = new google.maps.InfoWindow({
+      content: content
+  });
+
+    infowindow.open(map,marker);
+
+    return infowindow;
+
+}
+
 // MAP OBJECT
 var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+// IMAGES CONTAINER
+var images = [];  
 
 function getImages()
 {
 /*
 //
-//  GETTING IMAGE COORDINATES
+//  GETTING IMAGE COORDINATES AND SOURCE
 //
 */
 
@@ -58,63 +75,54 @@ function getImages()
 $.get( "https://api.instagram.com/v1/media/search", { "lat":location.lat,"lng":location.lng,"distance":"5000","client_id":"c9f518c6703b401c8b2b66843d9cd1c0"} ).done(function( data ) {
     console.log( data );
 
-	
+
 
     // GOING THROUGH RETURNED IMAGES
     for(key in data.data)
     {
     	var imgData = data.data[key];
-    	
+      var caption = imgData.caption;
+    	var text = (caption==null)? "-":imgData.caption.text;
+      var username = (caption==null)? "Anonymous":imgData.caption.from.username;
+
     	var marker = {
     		"lat":imgData.location.latitude,
     		"lng":imgData.location.longitude,
     		"imgSrc":imgData.images.standard_resolution.url,
-    		"id":imgData.id
+    		"id":imgData.id,
+        "caption":text,
+        "username":username
     	}
 
+      // START PRELOADING IMAGE
+      images[key] = new Image()
+      images[key].src = marker.imgSrc;
+
+      // CREATE MARKER
     	addMarker(marker);
 
-    /*	var imgSrc = data.data[key].images.standard_resolution.url;
-console.log(imgSrc);
-var img = $('<img id="dynamic">'); //Equivalent: $(document.createElement('img'))
-img.attr('src', imgSrc);
-$("body").append(img);*/
     }
   });
 }
 
-/*
-function initialize() {
-
-
-
-  var myLatlng = new google.maps.LatLng(location.lat,location.lng);
-  var myLatlng2 = new google.maps.LatLng(22.283537,114.185972);
-  
-  
-
-
-  var marker = new google.maps.Marker({
-      position: myLatlng,
-      map: map,
-      title: 'Hello World!'
-  });
-
-// This event listener will call addMarker() when the map is clicked.
- google.maps.event.addListener(map, 'click', function(event) {
-    addMarker(event.latLng);
-  });
-
-
-}*/
 
 getImages();
 
+// CURRENT MARKERS COUNTER
 var counter  = markers.length;
+
+// CURRENT DISPLAYINFO BOX
+var imageBox ;
 
 window.setInterval(function() {
 
+if(imageBox!=undefined) imageBox.close();
       map.panTo(markers[counter].getPosition());
+
+      var boxContent = '<span style="font-weight:bold">'+markers[counter].username+': </span><span>'+markers[counter].caption+'</span><br><img src="'+markers[counter].imgSrc+'" >';
+      console.log(boxContent);
+      imageBox = displayInfo(boxContent,markers[counter]);
+
       counter = ( counter == 0 )? markers.length-1 : counter - 1;
 console.log("move");
     }, 5000);
