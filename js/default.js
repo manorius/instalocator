@@ -10,21 +10,36 @@ var markers = [];
   var mapCenter = new google.maps.LatLng(location.lat,location.lng);
 
 // Add a marker to the map and push to the array.
-function addMarker(loc)
+function addMarker(mark)
 {
 
-   var newMarker = new google.maps.LatLng(loc.lat,loc.lng);
-//	console.log(location);
+   var newMarker = new google.maps.LatLng(mark.lat,mark.lng);
+
+// SET MARKER ICON
+ var image = {
+    url: 'img/instamark.png',
+    // This marker is 20 pixels wide by 32 pixels tall.
+    size: new google.maps.Size(32,32),
+    // The origin for this image is 0,0.
+    origin: new google.maps.Point(0,0),
+    // The anchor for this image is the base of the flagpole at 0,32.
+    anchor: new google.maps.Point(16, 16)
+  };
+ 
    var marker = new google.maps.Marker({
     position: newMarker,
     map: map,
-    title: loc.id
+    icon: image,
+    title: mark.id,
+    imgSrc: mark.imgSrc
   });
+
+   markers.push(marker);
 }
 
 // MAP OPTIONS
 var mapOptions = {
-    zoom: 15,
+    zoom: 14,
     center: mapCenter
   }
 
@@ -50,14 +65,14 @@ $.get( "https://api.instagram.com/v1/media/search", { "lat":location.lat,"lng":l
     {
     	var imgData = data.data[key];
     	
-    	markers.push({
+    	var marker = {
     		"lat":imgData.location.latitude,
     		"lng":imgData.location.longitude,
     		"imgSrc":imgData.images.standard_resolution.url,
     		"id":imgData.id
-    	})
+    	}
 
-    	addMarker(markers[key]);
+    	addMarker(marker);
 
     /*	var imgSrc = data.data[key].images.standard_resolution.url;
 console.log(imgSrc);
@@ -95,5 +110,40 @@ function initialize() {
 
 getImages();
 
+var counter  = markers.length;
+
+window.setInterval(function() {
+
+      map.panTo(markers[counter].getPosition());
+      counter = ( counter == 0 )? markers.length-1 : counter - 1;
+console.log("move");
+    }, 5000);
+
+map.set('styles',[
+    {
+        "featureType": "all",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "lightness": -100
+            },
+            {
+                "color": "#e80c8e"
+            }
+        ]
+    }
+]);
 
 }); // end document ready
