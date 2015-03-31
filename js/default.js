@@ -71,9 +71,14 @@ function getImages()
 //  GETTING IMAGE COORDINATES AND SOURCE
 //
 */
-
+$.ajax({
+                    url: 'https://api.instagram.com/v1/media/search?lat='+location.lat+'&lng='+location.lng+'&distance=5000&client_id=c9f518c6703b401c8b2b66843d9cd1c0',
+                    dataType: 'jsonp',
+                    success: function(data){
+                        console.log(data);
+                    }})
 // GETTING IMAGES TAKEN IN HONG KONG
-$.get( "https://api.instagram.com/v1/media/search", { "lat":location.lat,"lng":location.lng,"distance":"5000","client_id":"c9f518c6703b401c8b2b66843d9cd1c0"} ).done(function( data ) {
+/*$.getJSON( "https://api.instagram.com/v1/media/search", { "lat":location.lat,"lng":location.lng,"distance":"5000","client_id":"c9f518c6703b401c8b2b66843d9cd1c0","callback":"?"} ).done(function( data ) {
     console.log( data );
 
 
@@ -110,7 +115,7 @@ $.get( "https://api.instagram.com/v1/media/search", { "lat":location.lat,"lng":l
     	
 
     }
-  });
+  });*/
 }
 
 
