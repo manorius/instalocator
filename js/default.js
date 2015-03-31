@@ -73,7 +73,7 @@ function getImages()
 */
 
 // GETTING IMAGES TAKEN IN HONG KONG
-$.get( "https://api.instagram.com/v1/media/search", { "lat":location.lat,"lng":location.lng,"distance":"5000","client_id":"c9f518c6703b401c8b2b66843d9cd1c0"} ).done(function( data ) {
+$.get( "https://api.instagram.com/v1/media/search", { "lat":location.lat,"lng":location.lng,"distance":"5000","client_id":"8e389360eb63441da5f5680c26ed7dbf","callback":"?"} ).done(function( data ) {
     console.log( data );
 
 
