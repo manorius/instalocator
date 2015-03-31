@@ -31,6 +31,7 @@ function addMarker(mark)
     map: map,
     icon: image,
     title: mark.id,
+    animation: google.maps.Animation.DROP,
     imgSrc: mark.imgSrc,
     caption:mark.caption,
     username:mark.username
@@ -99,7 +100,14 @@ $.get( "https://api.instagram.com/v1/media/search", { "lat":location.lat,"lng":l
       images[key].src = marker.imgSrc;
 
       // CREATE MARKER
-    	addMarker(marker);
+      //cm(marker);
+      (function cm(m){
+      window.setTimeout(function() {
+      addMarker(m);
+      console.log(m);
+    }, key * 150);
+      })(marker)
+    	
 
     }
   });
