@@ -76,6 +76,39 @@ $.ajax({
                     dataType: 'jsonp',
                     success: function(data){
                         console.log(data);
+                        
+    // GOING THROUGH RETURNED IMAGES
+    for(key in data.data)
+    {
+      var imgData = data.data[key];
+      var caption = imgData.caption;
+      var text = (caption==null)? "-":imgData.caption.text;
+      var username = (caption==null)? "Anonymous":imgData.caption.from.username;
+
+      var marker = {
+        "lat":imgData.location.latitude,
+        "lng":imgData.location.longitude,
+        "imgSrc":imgData.images.standard_resolution.url,
+        "id":imgData.id,
+        "caption":text,
+        "username":username
+      }
+
+      // START PRELOADING IMAGE
+      images[key] = new Image()
+      images[key].src = marker.imgSrc;
+
+      // CREATE MARKER
+      //cm(marker);
+      (function cm(m){
+      window.setTimeout(function() {
+      addMarker(m);
+      console.log(m);
+    }, key * 150);
+      })(marker)
+      
+
+    }
                     }})
 // GETTING IMAGES TAKEN IN HONG KONG
 /*$.getJSON( "https://api.instagram.com/v1/media/search", { "lat":location.lat,"lng":location.lng,"distance":"5000","client_id":"c9f518c6703b401c8b2b66843d9cd1c0","callback":"?"} ).done(function( data ) {
