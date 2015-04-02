@@ -1273,6 +1273,11 @@ dl:after {
     content: " (" attr(title) ")";
   }
 }
+/*
+//
+//  WITHOUT THIS THE MAP DOESN'T SHOW UP
+//
+*/
 html,
 body,
 #map-canvas {
@@ -1280,3 +1285,28 @@ body,
   margin: 0;
   padding: 0;
 }
+/*
+//
+//  INFO BOX
+//
+*/
+#iw-container {
+   font-family: 'Open Sans Condensed', sans-serif;
+   font-size: 22px;
+   font-weight: 400;
+  /* background-color: #000000 !important;*/
+   color: black;
+}
+.gm-style-iw {
+   top: 14px !important; 
+   left: 0 !important;
+   padding: 11px;
+   background-color: #ffffff !important;
+   box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6);
+   border-radius: 16px;
+}
+.gm-style-iw div, .gm-style-iw div div
+{
+    overflow: hidden !important;
+}
+
