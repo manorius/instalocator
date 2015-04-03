@@ -1,6 +1,6 @@
-less/ #ignore less folder
-gulpfile.js
-node_modules/
-package.json
-.travis.yml
+#less/ #ignore less folder
+#gulpfile.js
+#node_modules/
+#package.json
+#.travis.yml
 .DS_Store
