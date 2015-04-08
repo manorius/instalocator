@@ -1309,16 +1309,42 @@ background-color:#3e3e3e;
 text-align:center;
 line-height: 1em;
 color:#e6e3df;
-font-size:5vh;
+font-size:4vh;
 }
 #instacopy{
-  
+  position:relative;
 }
 .hashtag
 {
-  color:#e80c8e;
+ /* color:#e80c8e;
+  border:1px solid #8C4A71;*/
+  
+  display:inline-block;
+  padding:3px;
+  margin-right:5px;
+  color:#3e3e3e;
+  background-color:#e6e3df;
 }
-
+#pic-username
+{
+  display:inline-block;
+  padding:3px;
+  margin-right:5px;
+  color:#3e3e3e;
+  background-color:#e80c8e;
+}
+#logo{
+  position:absolute;
+  z-index:1000;
+  top:-35px;
+  right:0;
+}
+#logo img{
+  width: 100px;
+  -webkit-clip-path: inset(35px 0px 35px 0px); 
+          clip-path: inset(35px 0px 35px 0px); 
+  
+}
 /*
 //
 //  INFO BOX
