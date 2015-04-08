@@ -25,7 +25,7 @@ $(document).ready(function() {
     var dist = "5000";
 
     // SHOW IMAGE DURATION
-    var imgDuration = "3000";
+    var imgDuration = "5000";
 
     // NUMBER OF RESULTS
     var resNum = 50;
